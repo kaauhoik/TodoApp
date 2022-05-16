@@ -4,9 +4,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoApp"
+        xmlns:models="clr-namespace:ToDoApp.Models"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Todo-appi by Kalle" Height="450" Width="500">
+    <Window.Resources>
+       
+    </Window.Resources>
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="tbDescription" Grid.Row="0" Grid.Column="0" Height="100" Text="">
+          
+        </TextBox>
+        <StackPanel Grid.Row="0"  Grid.Column="1" Orientation="Horizontal">
+            <Button x:Name="btnAdd" Command="{x:Static local:MainWindow.AddCommand}" Height="30" Width="100" Margin="10" Content="Add" Background="ForestGreen"></Button>
+            <Button x:Name="btnDelete" Command="{x:Static local:MainWindow.DeleteCommand}" Height="30" Width="100" Margin="10" Content="Delete selected" Background="IndianRed"></Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Width="auto">
+            <ListBox x:Name="lbLista" ItemsSource="{Binding ItemsList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:TodoItem}">
+                        <CheckBox IsChecked="{Binding Path = IsDone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Command="{x:Static local:MainWindow.CheckedCommand}"
+                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}">
+                            <TextBlock Text="{Binding Path =Description}"></TextBlock>
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+               
+            </ListBox>
+        </StackPanel>
     </Grid>
 </Window>
